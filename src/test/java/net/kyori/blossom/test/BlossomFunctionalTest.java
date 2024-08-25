@@ -32,9 +32,10 @@ import net.kyori.mammoth.test.TestVariantResource;
 
 @GradleFunctionalTest
 @GradleParameters({"--warning-mode", "fail", "--stacktrace"}) // parameters for all variants
-@TestVariant(gradleVersion = "7.6.2")
-@TestVariant(gradleVersion = "8.3", extraArguments = {"--configuration-cache"})
-@TestVariantResource(value = "/injected-gradle-versions", optional = true)
+@TestVariant(gradleVersion = "7.6.4", maximumRuntimeVersion = 20)
+@TestVariant(gradleVersion = "8.9", extraArguments = {"--configuration-cache"}) // last version with non-deprecated support for runtimes <17
+@TestVariant(gradleVersion = "8.10", extraArguments = {"--configuration-cache"}, minimumRuntimeVersion = 17)
+@TestVariantResource(value = "/injected-gradle-versions", optional = true, minimumRuntimeVersion = 17) // newer Gradle versions deprecate running on JDK <17, and this is only for RC's
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.ANNOTATION_TYPE, ElementType.METHOD})
